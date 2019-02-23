@@ -1,0 +1,29 @@
+sudo: required
+services:
+  - docker
+
+#Build image by Dockerfile.dev for react testing process (As we can't run test on build product version)
+before_install:
+  - docker build -t ecosyn/docker-react-test -f ./client/Dockerfile.dev . 
+
+#run react test app 
+script:
+  - docker run ecosyn/docker-react-test npm test -- --coverage
+
+#Build image for all the service container follow by Dockerfile 
+after_success: 
+  - docker build -t ecosyn/docker-multi-client  ./client 
+  - docker build -t ecosyn/docker-multi-nginx  ./nginx
+  - docker build -t ecosyn/docker-multi-server  ./server
+  - docker build -t ecosyn/docker-multi-worker  ./worker
+
+# Login to docker cli
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+#Push all images to docker hub
+- docker push ecosyn/docker-multi-client
+- docker push ecosyn/docker-multi-nginx
+- docker push ecosyn/docker-multi-server
+- docker push ecosyn/docker-multi-worker
+
+
