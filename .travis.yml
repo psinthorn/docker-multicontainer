@@ -1,9 +1,8 @@
 sudo: required
 services:
   - docker
-before_intall:
+before_install:
   - docker build -t ecosyn/docker-multi-client-test -f ./client/Dockerfile.dev ./client
-
 script:
   - docker run ecosyn/docker-multi-client-test npm test -- --coverage
 
