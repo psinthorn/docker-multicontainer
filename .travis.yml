@@ -16,7 +16,7 @@ after_success:
   #Login to docker hub fix for login error
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
-  #Push all images to docker hub
+  #Push all image to docker hub
   - docker push ecosyn/docker-multi-client
   - docker push ecosyn/docker-multi-nginx
   - docker push ecosyn/docker-multi-server
