@@ -12,3 +12,4 @@ after_success:
   - docker builr -t ecosyn/docker-multi-nginx ./nginx
   - docker build -t ecosyn/docker-multi-server ./server
   - docker build -t ecosyn/docker-multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
