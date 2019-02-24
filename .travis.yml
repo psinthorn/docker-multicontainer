@@ -1,0 +1,14 @@
+sudo: required
+services:
+  - docker
+before_intall:
+  - docker build -t ecosyn/docker-multi-client-test -f ./client/Dockerfile.dev .
+
+script:
+  - docker run ecosyn/docker-multi-client-test npm run test -- --coverage
+
+after_success:
+  - docker build -t ecosyn/docker-multi-client ./client
+  - docker builr -t ecosyn/docker-multi-nginx ./nginx
+  - docker build -t ecosyn/docker-multi-server ./server
+  - docker build -t ecosyn/docker-multi-worker ./worker
