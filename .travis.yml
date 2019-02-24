@@ -14,7 +14,7 @@ after_success:
   - docker build -t ecosyn/docker-multi-worker ./worker
 
   #Login to docker hub fix for login error
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   #Push all image to docker hub
   - docker push ecosyn/docker-multi-client
