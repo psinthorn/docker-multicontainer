@@ -8,8 +8,17 @@ script:
   - docker run ecosyn/docker-multi-client-test npm test -- --coverage
 
 after_success:
+  #Create images for all the app service
   - docker build -t ecosyn/docker-multi-client ./client
-  - docker builr -t ecosyn/docker-multi-nginx ./nginx
+  - docker build -t ecosyn/docker-multi-nginx ./nginx
   - docker build -t ecosyn/docker-multi-server ./server
   - docker build -t ecosyn/docker-multi-worker ./worker
+
+  #Login to docker hub
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  #Push all images to docker hub
+  - docker push ecosyn/docker-multi-client
+  - docker push ecosyn/docker-multi-nginx
+  - docker push ecosyn/docker-multi-server
+  - docker push ecosyn/docker-multi-worker
