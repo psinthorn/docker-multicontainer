@@ -1,9 +1,8 @@
 sudo: required
 services:
   - docker
-before_intall:
+before_install:
   - docker build -t ecosyn/docker-multi-client-test -f ./client/Dockerfile.dev ./client
-
 script:
   - docker run ecosyn/docker-multi-client-test npm test -- --coverage
 
@@ -14,7 +13,7 @@ after_success:
   - docker build -t ecosyn/docker-multi-server ./server
   - docker build -t ecosyn/docker-multi-worker ./worker
 
-  #Login to docker hub
+  #Login to docker hub fix for login error
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   #Push all images to docker hub
